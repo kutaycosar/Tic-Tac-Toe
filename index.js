@@ -1,4 +1,62 @@
+const rockBtn = document.createElement('button');
+const paperBtn = document.createElement('button');
+const scissorsBtn = document.createElement('button');
 
+const div = document.querySelector('#section');
+
+let index = 0;
+let score = "";
+let playerWon = 0;
+let computerWon = 0;
+
+rockBtn.style = 'width: 130px; height: 130px; background-image:url(./images/rock.png)'
+paperBtn.style = 'width: 130px; height: 130px; background-image:url(./images/paper.png)'
+scissorsBtn.style = 'width: 130px; height: 130px; background-image:url(./images/scissors.png)'
+
+rockBtn.value = 'rock';
+paperBtn.value = 'paper';
+scissorsBtn.value = 'scissors';
+
+div.appendChild(rockBtn);
+div.appendChild(paperBtn);
+div.appendChild(scissorsBtn);
+
+rockBtn.addEventListener('click', function (e) {
+    debugger;
+    // string = playRound(e.target.value, computerSelection);
+    // console.log(string);
+    const computerSelection = computerPlay();
+    const playerSelection = e.target.value;
+    console.log(playerSelection);
+
+    let resultString = playRound(playerSelection, computerSelection);
+
+    game(resultString);
+})
+
+paperBtn.addEventListener('click', function (e) {
+    // string = playRound(e.target.value, computerSelection);
+    // console.log(string);
+    const computerSelection = computerPlay();
+    const playerSelection = e.target.value;
+    console.log(playerSelection);
+
+    let resultString = playRound(playerSelection, computerSelection);
+
+    game(resultString);
+})
+
+scissorsBtn.addEventListener('click', function (e) {
+    // string = playRound(e.target.value, computerSelection);
+    // console.log(string);
+    const computerSelection = computerPlay();
+    const playerSelection = e.target.value;
+    console.log(playerSelection);
+
+    let resultString = playRound(playerSelection, computerSelection);
+
+    game(resultString);
+})
 
 function computerPlay(){
     let stringArray = ["Rock", "Paper", "Scissors"];
@@ -53,54 +111,52 @@ function playRound(playerSelection, computerSelection){
 
 function roundWinner(string){
    if (string.includes("win")) {
-       return 1
+       playerWon++;
    }else if(string.includes("lose")){
-       return 2
+       computerWon++
    }else{
-       return 0
+       return 0;
    }
 }
 
-function game(){
-    debugger
-    
-    let index = 0;
-    let winner = 0;
-    let compWins = 0;
-    let humanWins = 0;
-    
-    while(index < 2){
-        const computerSelection = computerPlay();
-        const playerSelection = window.prompt("What will you play? rock scissors or paper?")
-        let string = "";
-        
+function game(result){
 
 
-        string = playRound(playerSelection, computerSelection)
-        winner = roundWinner(string)
-        alert(string)
-        if(winner === 1){
-            humanWins++
-        }else if(winner === 2){
-            compWins++
+
+    if (index < 5) {
+        debugger;
+        if (document.getElementById('result')) {
+            let element = document.getElementById('result');
+            div.removeChild(element);
         }
-        index++
-        
-            
-    }
-    
-    if (compWins > humanWins) {
-        alert("at the end you lose to computer")
-    }else if (humanWins > compWins){
-        alert("at the end you win")
+
+
+        const resultDiv = document.createElement('div');
+        resultDiv.setAttribute("id", "result");
+
+        resultDiv.innerText = result;
+
+
+        div.appendChild(resultDiv);
+        roundWinner(result);
+        index++;
+
     }else{
-        alert("at the end its draw")
-    }
-        
+        let winner = document.createElement('p');
+        if (playerWon > computerWon) {
+            winner.innerText = "You Won!!! Congrats";
+        }else if(computerWon > playerWon){
+            winner.innerText = "Computer won!!! you loooser!!!!"
+        }else{
+            winner.innerText = "tie!!";
+        }
+        div.appendChild(winner);
     
-        
+    }
+    
+    
+
 }
     
 
 
-game()
